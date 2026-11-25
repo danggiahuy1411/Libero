@@ -19,6 +19,7 @@ public partial class App : Application
     private void ConfigureServices(ServiceCollection services)
     {
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
     }

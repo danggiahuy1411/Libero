@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{DynamicResource AccentColor}"/>
+
+    <!-- Card nền chuẩn -->
+    <Style x:Key="AppCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="16"/>
+        <Setter Property="Padding" Value="28"/>
+        <Setter Property="Effect" Value="{DynamicResource CardShadowEffect}"/>
+    </Style>
+
+    <!-- Label chuẩn trên các ô nhập liệu -->
+    <Style x:Key="FormLabelStyle" TargetType="Label">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="0,0,0,6"/>
+    </Style>
+
+    <!-- TextBox gốc dùng chung -->
+    <Style x:Key="AppTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+        <Setter Property="Margin" Value="0,0,0,18"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Padding" Value="12,10"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="{DynamicResource AccentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="materialDesign:HintAssist.IsFloating" Value="False"/>
+        <Setter Property="materialDesign:HintAssist.Foreground" Value="{DynamicResource TextMutedBrush}"/>
+        <Setter Property="materialDesign:TextFieldAssist.HasLeadingIcon" Value="False"/>
+        <Setter Property="materialDesign:TextFieldAssist.LeadingIconSize" Value="20"/>
+        <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="8"/>
+        <Setter Property="materialDesign:ValidationAssist.UsePopup" Value="False"/>
+        <Setter Property="materialDesign:ValidationAssist.Background" Value="Transparent"/>
+        <Setter Property="materialDesign:ValidationAssist.FontSize" Value="13"/>
+    </Style>
+
+    <!-- PasswordBox gốc dùng chung -->
+    <Style x:Key="AppPasswordBoxStyle" TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignOutlinedRevealPasswordBox}">
+        <Setter Property="Margin" Value="0,0,0,18"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Padding" Value="12,10"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="{DynamicResource AccentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="materialDesign:HintAssist.IsFloating" Value="False"/>
+        <Setter Property="materialDesign:HintAssist.Foreground" Value="{DynamicResource TextMutedBrush}"/>
+        <Setter Property="materialDesign:TextFieldAssist.LeadingIcon" Value="LockOutline"/>
+        <Setter Property="materialDesign:TextFieldAssist.HasLeadingIcon" Value="False"/>
+        <Setter Property="materialDesign:TextFieldAssist.LeadingIconSize" Value="20"/>
+        <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="8"/>
+        <Setter Property="materialDesign:ValidationAssist.UsePopup" Value="False"/>
+        <Setter Property="materialDesign:ValidationAssist.Background" Value="Transparent"/>
+        <Setter Property="materialDesign:ValidationAssist.FontSize" Value="13"/>
+    </Style>
+
+    <!-- Nút chính (Nền đặc) -->
+    <Style x:Key="AppPrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+        <Setter Property="Height" Value="42"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Padding" Value="24,0"/>
+        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SurfaceBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="8"/>
+    </Style>
+
+    <!-- Nút phụ (Viền mảnh) -->
+    <Style x:Key="AppOutlinedButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+        <Setter Property="Height" Value="42"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="24,0"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="8"/>
+    </Style>
+
+</ResourceDictionary>
