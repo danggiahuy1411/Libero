@@ -17,6 +17,18 @@
                 <views:LoginSignupView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:CustomerShellViewModel}">
+                <views:CustomerShellView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:CustomerHomepageViewModel}">
+                <views:CustomerHomepageView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:AccountSettingViewModel}">
+                <views:AccountSettingView/>
+            </DataTemplate>
+
             <Style x:Key="InputBorderStyle" TargetType="Border">
                 <Setter Property="Height" Value="50"/>
                 <Setter Property="CornerRadius" Value="6"/>

@@ -81,11 +81,11 @@ public partial class LoginSignupViewModel : BaseViewModel
 
         if (Account == "admin" && Password == "admin")
         {
-            //_navigationService.NavigateTo<>();
+            _navigationService.NavigateTo<CustomerShellViewModel>();
         }
         else if (Account == "user" && Password == "user")
         {
-            //_navigationService.NavigateTo<>();
+            _navigationService.NavigateTo<CustomerShellViewModel>();
         }
         else
         {

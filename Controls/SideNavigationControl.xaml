@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="Libero.Controls.SideNavigationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:views="clr-namespace:Libero.Views"
+             xmlns:converters="clr-namespace:Libero.Converters"
+             x:Name="RootNav">
+
+    <UserControl.Resources>
+        <converters:StringEqualsConverter x:Key="StringEqualsConverter"/>
+
+        <!-- Style dùng chung cho các tab điều hướng -->
+        <Style x:Key="NavItemRadioStyle" TargetType="RadioButton">
+            <Setter Property="GroupName" Value="CustomerSideNavGroup"/>
+            <Setter Property="Height" Value="46"/>
+            <Setter Property="Margin" Value="10,3"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Foreground" Value="#E6D8C8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="ItemBorder"
+                                Background="Transparent"
+                                CornerRadius="12"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    <Condition Property="IsChecked" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#1AFFFFFF"/>
+                                <Setter Property="Foreground" Value="{DynamicResource SidebarTextBrush}"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource AccentBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource SidebarTextBrush}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="10,4"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style riêng cho nút hành động ở đáy Sidebar (Đăng xuất) -->
+        <Style x:Key="NavActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="46"/>
+            <Setter Property="Margin" Value="10,3,10,14"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Foreground" Value="#E6D8C8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ItemBorder"
+                                Background="Transparent"
+                                CornerRadius="12"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#26A65345"/>
+                                <Setter Property="Foreground" Value="#F29B8E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="10,4,10,14"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style ẩn TextBlock khi thu gọn -->
+        <Style x:Key="NavLabelStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="14,0,0,0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="{DynamicResource SidebarBrush}" BorderBrush="#26FFFFFF" BorderThickness="0,0,1,0">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Width" Value="240"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
+                        <Setter Property="Width" Value="72"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <DockPanel>
+            <!-- 1. Phần thương hiệu đầu Sidebar (Dock Top) -->
+            <Border DockPanel.Dock="Top" Padding="14,16" Margin="0,0,0,6">
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="#F6EED9" Width="40" Height="40" CornerRadius="10" Padding="2">
+                        <Image Source="pack://application:,,,/Libero;component/Assets/mini-logo.png" Stretch="Uniform"/>
+                    </Border>
+
+                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBlock Text="LIBERO"
+                                   FontFamily="EB Garamond"
+                                   Foreground="{DynamicResource SidebarTextBrush}"
+                                   FontWeight="Bold"
+                                   FontSize="20"/>
+                        <TextBlock Text="Book Store"
+                                   Foreground="{DynamicResource GoldBrush}"
+                                   FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- 2. Nút Đăng xuất ghim sát đáy Sidebar (PHẢI đặt trước phần nội dung giữa) -->
+            <Button DockPanel.Dock="Bottom"
+                    Style="{StaticResource NavActionButtonStyle}"
+                    ToolTip="Đăng xuất"
+                    Command="{Binding DataContext.LogoutCommand, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Logout" Width="22" Height="22" VerticalAlignment="Center"/>
+                    <TextBlock Text="Đăng xuất" Style="{StaticResource NavLabelStyle}"/>
+                </StackPanel>
+            </Button>
+
+            <!-- 3. Danh sách điều hướng chiếm phần không gian còn lại ở giữa -->
+            <StackPanel Margin="0,4">
+                <RadioButton Style="{StaticResource NavItemRadioStyle}"
+                             ToolTip="Trang chủ"
+                             IsChecked="{Binding DataContext.CurrentPageKey, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Homepage, Mode=OneWay}"
+                             Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}}"
+                             CommandParameter="Homepage">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ViewGridOutline" Width="22" Height="22" VerticalAlignment="Center"/>
+                        <TextBlock Text="Trang chủ" Style="{StaticResource NavLabelStyle}"/>
+                    </StackPanel>
+                </RadioButton>
+
+                <!-- Nhãn phân nhóm "Cá nhân" -->
+                <TextBlock Text="Cá nhân"
+                           Foreground="{DynamicResource GoldBrush}"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Margin="24,18,0,6">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <RadioButton Style="{StaticResource NavItemRadioStyle}"
+                             ToolTip="Cài đặt tài khoản"
+                             IsChecked="{Binding DataContext.CurrentPageKey, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}, Converter={StaticResource StringEqualsConverter}, ConverterParameter=AccountSetting, Mode=OneWay}"
+                             Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}}"
+                             CommandParameter="AccountSetting">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="AccountOutline" Width="22" Height="22" VerticalAlignment="Center"/>
+                        <TextBlock Text="Tài khoản" Style="{StaticResource NavLabelStyle}"/>
+                    </StackPanel>
+                </RadioButton>
+            </StackPanel>
+        </DockPanel>
+    </Border>
+</UserControl>

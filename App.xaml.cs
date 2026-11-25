@@ -24,6 +24,9 @@ public partial class App : Application
         services.AddSingleton<MainWindow>();
 
         services.AddTransient<LoginSignupViewModel>();
+        services.AddTransient<CustomerShellViewModel>();
+        services.AddTransient<CustomerHomepageViewModel>();
+        services.AddTransient<AccountSettingViewModel>();
     }
 
     protected override void OnStartup(StartupEventArgs e)

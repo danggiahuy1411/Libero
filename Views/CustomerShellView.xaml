@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Libero.Views.CustomerShellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Libero.Controls">
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Cột 0: Thanh Navigation luôn hiển thị (mở rộng 240px hoặc thu gọn 72px) -->
+        <controls:SideNavigationControl Grid.Column="0"
+                                        IsCollapsed="{Binding IsNavCollapsed, Mode=TwoWay}"/>
+
+        <!-- Cột 1: Header + Nội dung các trang con -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Thanh Header nền SurfaceBrush -->
+            <Border Grid.Row="0"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="20,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Nút 3 gạch thu gọn/mở rộng Sidebar -->
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                        <ToggleButton IsChecked="{Binding IsNavCollapsed, Mode=TwoWay}"
+                                      Width="40" Height="40"
+                                      Cursor="Hand"
+                                      ToolTip="Thu gọn / Mở rộng thanh điều hướng">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="BtnBorder"
+                                            Background="{DynamicResource SurfaceBrush}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="10">
+                                        <materialDesign:PackIcon Kind="Menu"
+                                                                 Width="20" Height="20"
+                                                                 Foreground="{DynamicResource TextPrimaryBrush}"
+                                                                 HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource SurfaceHoverBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+                    </StackPanel>
+
+                    <!-- Menu tài khoản & Đổi Theme -->
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                        <controls:PopupAccountMenuControl VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        <controls:ToggleTheme Width="84" Height="40"
+                                              VerticalAlignment="Center"
+                                              IsDarkMode="{Binding DataContext.IsDarkMode, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}"
+                                              ToggleCommand="{Binding DataContext.ToggleThemeCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Nội dung các trang con -->
+            <ContentControl Grid.Row="1" Content="{Binding CurrentPageViewModel}"/>
+        </Grid>
+    </Grid>
+</UserControl>
