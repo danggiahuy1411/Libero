@@ -1,7 +1,7 @@
-﻿using Libero;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Libero.Services;
 using Libero.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+using Libero.Views;
 using System.Windows;
 
 namespace Libero;
