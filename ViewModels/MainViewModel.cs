@@ -25,6 +25,8 @@ public partial class MainViewModel : BaseViewModel
         _themeService = themeService;
         _navigationService.CurrentViewModelChanged +=
             OnCurrentViewModelChanged;
+
+        _navigationService.NavigateTo<LoginSignupViewModel>();
     }
 
     [RelayCommand]

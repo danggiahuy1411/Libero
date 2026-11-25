@@ -22,6 +22,8 @@ public partial class App : Application
         services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
+
+        services.AddTransient<LoginSignupViewModel>();
     }
 
     protected override void OnStartup(StartupEventArgs e)
