@@ -7,11 +7,10 @@
              x:Name="RootNav">
 
     <UserControl.Resources>
-        <converters:StringEqualsConverter x:Key="StringEqualsConverter"/>
+        <converters:EqualityMultiConverter x:Key="EqualityMultiConverter"/>
 
-        <!-- Style dùng chung cho các tab điều hướng -->
         <Style x:Key="NavItemRadioStyle" TargetType="RadioButton">
-            <Setter Property="GroupName" Value="CustomerSideNavGroup"/>
+            <Setter Property="GroupName" Value="MainSideNavGroup"/>
             <Setter Property="Height" Value="46"/>
             <Setter Property="Margin" Value="10,3"/>
             <Setter Property="Padding" Value="14,0"/>
@@ -58,7 +57,6 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Style riêng cho nút hành động ở đáy Sidebar (Đăng xuất) -->
         <Style x:Key="NavActionButtonStyle" TargetType="Button">
             <Setter Property="Height" Value="46"/>
             <Setter Property="Margin" Value="10,3,10,14"/>
@@ -96,7 +94,6 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Style ẩn TextBlock khi thu gọn -->
         <Style x:Key="NavLabelStyle" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="14,0,0,0"/>
@@ -121,7 +118,7 @@
         </Border.Style>
 
         <DockPanel>
-            <!-- 1. Phần thương hiệu đầu Sidebar (Dock Top) -->
+            <!-- 1. Thương hiệu đầu Sidebar -->
             <Border DockPanel.Dock="Top" Padding="14,16" Margin="0,0,0,6">
                 <StackPanel Orientation="Horizontal">
                     <Border Background="#F6EED9" Width="40" Height="40" CornerRadius="10" Padding="2">
@@ -150,58 +147,67 @@
                 </StackPanel>
             </Border>
 
-            <!-- 2. Nút Đăng xuất ghim sát đáy Sidebar (PHẢI đặt trước phần nội dung giữa) -->
+            <!-- 2. Nút Đăng xuất ở đáy Sidebar -->
             <Button DockPanel.Dock="Bottom"
                     Style="{StaticResource NavActionButtonStyle}"
                     ToolTip="Đăng xuất"
-                    Command="{Binding DataContext.LogoutCommand, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}}">
+                    Command="{Binding DataContext.LogoutCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ShellView}}}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Logout" Width="22" Height="22" VerticalAlignment="Center"/>
                     <TextBlock Text="Đăng xuất" Style="{StaticResource NavLabelStyle}"/>
                 </StackPanel>
             </Button>
 
-            <!-- 3. Danh sách điều hướng chiếm phần không gian còn lại ở giữa -->
-            <StackPanel Margin="0,4">
-                <RadioButton Style="{StaticResource NavItemRadioStyle}"
-                             ToolTip="Trang chủ"
-                             IsChecked="{Binding DataContext.CurrentPageKey, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Homepage, Mode=OneWay}"
-                             Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}}"
-                             CommandParameter="Homepage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="ViewGridOutline" Width="22" Height="22" VerticalAlignment="Center"/>
-                        <TextBlock Text="Trang chủ" Style="{StaticResource NavLabelStyle}"/>
-                    </StackPanel>
-                </RadioButton>
+            <!-- 3. Danh sách điều hướng động theo Role -->
+            <ItemsControl ItemsSource="{Binding DataContext.NavigationItems, RelativeSource={RelativeSource AncestorType={x:Type views:ShellView}}}"
+                          Margin="0,4">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <!-- Nhãn phân nhóm (chỉ hiện khi SectionHeader != null và Sidebar đang mở rộng) -->
+                            <TextBlock Text="{Binding SectionHeader}"
+                                       Foreground="{DynamicResource GoldBrush}"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Margin="24,18,0,6">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SectionHeader}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
 
-                <!-- Nhãn phân nhóm "Cá nhân" -->
-                <TextBlock Text="Cá nhân"
-                           Foreground="{DynamicResource GoldBrush}"
-                           FontSize="12"
-                           FontWeight="SemiBold"
-                           Margin="24,18,0,6">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsCollapsed, ElementName=RootNav}" Value="True">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                            <RadioButton Style="{StaticResource NavItemRadioStyle}"
+                                         ToolTip="{Binding Title}"
+                                         Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType={x:Type views:ShellView}}}"
+                                         CommandParameter="{Binding PageKey}">
+                                <RadioButton.IsChecked>
+                                    <MultiBinding Converter="{StaticResource EqualityMultiConverter}" Mode="OneWay">
+                                        <Binding Path="DataContext.CurrentPageKey">
+                                            <Binding.RelativeSource>
+                                                <RelativeSource AncestorType="{x:Type views:ShellView}"/>
+                                            </Binding.RelativeSource>
+                                        </Binding>
+                                        <Binding Path="PageKey"/>
+                                    </MultiBinding>
+                                </RadioButton.IsChecked>
 
-                <RadioButton Style="{StaticResource NavItemRadioStyle}"
-                             ToolTip="Cài đặt tài khoản"
-                             IsChecked="{Binding DataContext.CurrentPageKey, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}, Converter={StaticResource StringEqualsConverter}, ConverterParameter=AccountSetting, Mode=OneWay}"
-                             Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType={x:Type views:CustomerShellView}}}"
-                             CommandParameter="AccountSetting">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="AccountOutline" Width="22" Height="22" VerticalAlignment="Center"/>
-                        <TextBlock Text="Tài khoản" Style="{StaticResource NavLabelStyle}"/>
-                    </StackPanel>
-                </RadioButton>
-            </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="{Binding Icon}" Width="22" Height="22" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Title}" Style="{StaticResource NavLabelStyle}"/>
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </DockPanel>
     </Border>
 </UserControl>

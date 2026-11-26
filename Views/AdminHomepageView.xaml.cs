@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace Libero.Views
 {
     /// <summary>
-    /// Interaction logic for CustomerShellView.xaml
+    /// Interaction logic for AdminHomepageView.xaml
     /// </summary>
-    public partial class CustomerShellView : UserControl
+    public partial class AdminHomepageView : UserControl
     {
-        public CustomerShellView()
+        public AdminHomepageView()
         {
             InitializeComponent();
         }

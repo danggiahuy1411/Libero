@@ -13,6 +13,7 @@
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!-- Header -->
@@ -20,9 +21,19 @@
                        FontSize="36"
                        FontWeight="Bold"
                        Foreground="Blue"
+                       HorizontalAlignment="Center"
                        Margin="0,0,0,20"/>
+            
+            <TextBlock Text="Customer Homepage"
+                       FontSize="24"
+                       Foreground="Gray"
+                       Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,40"/>
+            
             <!-- Content -->
-            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Button Content="Sign Out"
                         Width="200"
                         Height="50"

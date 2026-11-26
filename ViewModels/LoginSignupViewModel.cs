@@ -13,9 +13,13 @@ namespace Libero.ViewModels;
 public partial class LoginSignupViewModel : BaseViewModel
 {
     private readonly INavigationService _navigationService;
-    public LoginSignupViewModel(INavigationService navigationService)
+    private readonly IUserSessionService _userSession;
+
+    public LoginSignupViewModel(INavigationService navigationService, IUserSessionService userSession)
     {
         _navigationService = navigationService;
+        _userSession = userSession;
+
         CheckOperatingStatus();
         _operatingTimer = new DispatcherTimer
         {
@@ -81,11 +85,24 @@ public partial class LoginSignupViewModel : BaseViewModel
 
         if (Account == "admin" && Password == "admin")
         {
-            _navigationService.NavigateTo<CustomerShellViewModel>();
+            _userSession.CurrentRole = "Admin";
+            _userSession.UserName = "Quản trị viên";
+            _userSession.UserInitials = "AD";
+            _navigationService.NavigateTo<ShellViewModel>();
+        }
+        else if (Account == "staff" && Password == "staff")
+        {
+            _userSession.CurrentRole = "Staff";
+            _userSession.UserName = "Nhân viên thư viện";
+            _userSession.UserInitials = "NV";
+            _navigationService.NavigateTo<ShellViewModel>();
         }
         else if (Account == "user" && Password == "user")
         {
-            _navigationService.NavigateTo<CustomerShellViewModel>();
+            _userSession.CurrentRole = "Customer";
+            _userSession.UserName = "Lê Minh Anh";
+            _userSession.UserInitials = "AL";
+            _navigationService.NavigateTo<ShellViewModel>();
         }
         else
         {

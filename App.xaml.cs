@@ -22,10 +22,13 @@ public partial class App : Application
         services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
+        services.AddSingleton<IUserSessionService, UserSessionService>();
 
         services.AddTransient<LoginSignupViewModel>();
-        services.AddTransient<CustomerShellViewModel>();
+        services.AddTransient<ShellViewModel>();
         services.AddTransient<CustomerHomepageViewModel>();
+        services.AddTransient<StaffHomepageViewModel>();
+        services.AddTransient<AdminHomepageViewModel>();
         services.AddTransient<AccountSettingViewModel>();
     }
 

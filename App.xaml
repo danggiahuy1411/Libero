@@ -17,12 +17,20 @@
                 <views:LoginSignupView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vm:CustomerShellViewModel}">
-                <views:CustomerShellView/>
+            <DataTemplate DataType="{x:Type vm:ShellViewModel}">
+                <views:ShellView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vm:CustomerHomepageViewModel}">
                 <views:CustomerHomepageView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:StaffHomepageViewModel}">
+                <views:StaffHomepageView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:AdminHomepageViewModel}">
+                <views:AdminHomepageView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vm:AccountSettingViewModel}">
